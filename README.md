@@ -11,10 +11,10 @@ The sensor takes quite a large time to read, meaning loop times will be negative
 
 <h3>How do we get the best of both?</h3>
 
-Through reading the IMU infrequently <b>(from 100ms+)</b> you keep Loop Times at a low of below <b>8ms</b> <br>Note: using nothing other than the IMU and odometry wheels<be>
+Through reading the IMU infrequently <b>(from 100ms+)</b> you keep Loop Times at a low <b>7ms</b> <br>Note: using nothing other than the IMU and odometry encoders<be>
 
-Is it effective? Testing has proven it to have an average of 1% + difference on my Team's Robot. <br>
-A <b>1% difference</b> can be the reason you win and lose a game, as autos in FTC often require the robot to be positioned <i>perfectly</i> when depositing game objects.
+Is it effective? Testing on my team's robot has proven an increase in accuracy of 1.5%<br>
+<b>Although it seems to be small, it can determine whether you win or lose a match, as autos in FTC often require the robot to be <i>perfectly</i> positioned when depositing game objects.
 
 Don't believe these statistics? This project was created so that you can <b>test</b> it yourself!
 
