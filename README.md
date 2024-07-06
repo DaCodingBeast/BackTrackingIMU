@@ -26,10 +26,14 @@ You will only need the package named Backtracking.
 Once you add that to your repository,
 You will need to make a few changes to RR's files (Will take less than 3 minutes, Android Studio will likely recommend you do these things anyway):
 
-In ThreeDeadWheelLocalizer: remove the <b>final</b> keyword from the class named ThreeDeadWheelLocalizer. Add the public keyword to these variables at the top: <i>public</i> int lastPar0Pos, lastPar1Pos, lastPerpPos; <i>public</i> boolean initialized;
-In MecanumDrive: remove the <b>final</b> keyword from the class named MecanumDrive. Add the public keyword to these variables: 
-1. <i>public</i> final DownsampledWriter estimatedPoseWriter,<i>public</i> final LinkedList<Pose2d> poseHistory.
-2. Remove final from this variable <i>public</i> Localizer localizer;
+In ThreeDeadWheelLocalizer: 
+1. Remove the <b>final</b> keyword from the class named ThreeDeadWheelLocalizer. 
+2. Add the public keyword to these variables at the top: <i>public</i> int lastPar0Pos, lastPar1Pos, lastPerpPos; <i>public</i> boolean initialized;
+
+In MecanumDrive: 
+1. Remove the <b>final</b> keyword from the class named MecanumDrive. Add the public keyword to these variables: 
+2. <i>public</i> final DownsampledWriter estimatedPoseWriter,<i>public</i> final LinkedList<Pose2d> poseHistory.
+3. Remove final from this variable <i>public</i> Localizer localizer;
 
 All set! 
 Run the opMode named Backtracking_TUNING in the FTC Dashboard.
