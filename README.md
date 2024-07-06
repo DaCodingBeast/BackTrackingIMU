@@ -11,15 +11,16 @@ The sensor takes quite a large time to read, meaning loop times will be negative
 
 <h3>How do we get the best of both?</h3>
 
-Through reading the IMU infrequently <b>(from 100ms+)</b> you keep Loop Times at a low of below <b>8ms</b> (using nothing other than the IMU and odometry wheels)
-Is it effective? Testing has proven it to have an average of 1% + difference on my Team's Robot. 
+Through reading the IMU infrequently <b>(from 100ms+)</b> you keep Loop Times at a low of below <b>8ms</b> <br>Note: using nothing other than the IMU and odometry wheels<be>
+
+Is it effective? Testing has proven it to have an average of 1% + difference on my Team's Robot. <br>
 A <b>1% difference</b> can be the reason you win and lose a game, as autos in FTC often require the robot to be positioned <i>perfectly</i> when depositing game objects.
 
-Don't believe these statistics? This project was created so that you can test it yourself!
+Don't believe these statistics? This project was created so that you can <b>test</b> it yourself!
 
 <h2>If you have not already downloaded RR: </h2>
 Clone this quickstart, and run the opMode named Backtracking_TUNING in the FTC Dashboard.
-(Make sure to read the telemetry instructions in the init phase of the Opmode)
+<b>(Make sure to read the telemetry instructions in the init phase of the Opmode)</b>
 
 <h2> If you already have RR installed: </h2>
 You will only need the package named Backtracking.
@@ -31,9 +32,9 @@ In ThreeDeadWheelLocalizer:
 2. Add the public keyword to these variables at the top: <i>public</i> int lastPar0Pos, lastPar1Pos, lastPerpPos; <i>public</i> boolean initialized;
 
 In MecanumDrive: 
-1. Remove the <b>final</b> keyword from the class named MecanumDrive. Add the public keyword to these variables: 
-2. <i>public</i> final DownsampledWriter estimatedPoseWriter,<i>public</i> final LinkedList<Pose2d> poseHistory.
-3. Remove final from this variable <i>public</i> Localizer localizer;
+1. Remove the <b>final</b> keyword from the class named MecanumDrive.
+2. Add the public keyword to these variables: <i>public</i> final DownsampledWriter estimatedPoseWriter,<i>public</i> final LinkedList<Pose2d> poseHistory.
+4. Remove final from this variable <i>public</i> Localizer localizer;
 
 All set! 
 Run the opMode named Backtracking_TUNING in the FTC Dashboard.
