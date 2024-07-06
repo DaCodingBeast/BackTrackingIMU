@@ -42,3 +42,6 @@ In MecanumDrive:
 All set! 
 Run the opMode named Backtracking_TUNING in the FTC Dashboard.
 (Make sure to read the telemetry instructions in the init phase of the Opmode)
+
+<h1>Questions? DM me in discord at arya0244 </h1>
+Note: Any suggestions or feedback are extremely welcomed, as a new developer I am always looking to improve.
