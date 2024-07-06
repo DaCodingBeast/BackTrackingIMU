@@ -22,7 +22,10 @@ This can prevent errors of over 10 inches in the 30-second autonomous period.
 Don't believe these statistics? This project was created so that you can <b>test</b> it yourself!
 
 <h2>If you have not already downloaded RR: </h2>
-Clone this quickstart, and run the opMode named Backtracking_TUNING in the FTC Dashboard.
+Clone this quickstart, and tune using the <a href="https://rr.brott.dev/docs/v1-0/tuning/">RR 1.0 tuning docs</a>.
+
+Then run the opMode named Backtracking_TUNING in the FTC Dashboard.
+
 <b>(Make sure to read the telemetry instructions in the init phase of the Opmode)</b>
 
 <h2> If you already have RR installed: </h2>
