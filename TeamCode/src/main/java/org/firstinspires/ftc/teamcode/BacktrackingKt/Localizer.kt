@@ -43,7 +43,7 @@ class Localizer(hardwareMap: HardwareMap, val imu: IMU, inPerTick: Double, priva
     }
 
     override fun update(): Twist2dDual<Time> {
-        val readImu = timer.milliseconds().toInt() >= BacktrackingTUNING.TimeBetweenIMUReads.timeBetween_Reads
+        val readImu = timer.milliseconds().toInt() >= BacktrackingTUNINGkt.Backtracking_TuningKt.timeBetween_Reads
 
         val par0PosVel = par0.getPositionAndVelocity()
         val par1PosVel = par1.getPositionAndVelocity()

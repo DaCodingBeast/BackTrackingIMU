@@ -41,7 +41,7 @@ open class MecDrive(hardwareMap: HardwareMap, startPose: Pose2d) : MecanumDrive(
 
     private var prevPose= DoubleArray(2)
     private var percentageCorrection=  DoubleArray(2)
-    private var totalChange= ArrayList<Double>(2)
+    private var totalChange= arrayListOf(0.0,0.0)
 
     //This is returns the effectiveness of the Localizer in percentage
     fun totalMovement(): DoubleArray {

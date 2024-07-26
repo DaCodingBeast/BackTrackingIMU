@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MecDrive extends MecanumDrive {
     public Drive drive = null;
@@ -45,7 +46,7 @@ public class MecDrive extends MecanumDrive {
         return twist.velocity().value();
     }
     double[] percentage_Correction = new double[2], prevPose= new double[2];
-    private ArrayList<Double> totalChange = new ArrayList<>(2);
+    private ArrayList<Double> totalChange = new ArrayList<>(Arrays.asList(0.0,0.0));
 
 
     // This returns the effectiveness of the Localizer in percentage

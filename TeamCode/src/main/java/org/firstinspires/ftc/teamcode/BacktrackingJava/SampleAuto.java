@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "SampleAuto", group = "Linear OpMode")
-class SampleAuto extends LinearOpMode {
+public class SampleAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -20,9 +20,6 @@ class SampleAuto extends LinearOpMode {
             drive.updatePoseEstimate();
 
             // Run your trajectories
-
-
-
 
 
             telemetry.update();

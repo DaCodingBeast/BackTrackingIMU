@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.BacktrackingKt.Drive
 
-@Autonomous(name = "SampleAuto", group = "Linear OpMode")
+@Autonomous(name = "SampleAutoKt", group = "Linear OpMode")
 class SampleAuto : LinearOpMode() {
     override fun runOpMode() {
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)

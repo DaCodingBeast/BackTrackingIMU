@@ -26,9 +26,10 @@ public class Backtracking_TUNING extends LinearOpMode {
 
         while(opModeInInit()) {
             telemetry.addLine("The DIRECTIONS");
-            telemetry.addLine("Tune variable timeBetween_Reads in the FTC Dashboard");
-            telemetry.addLine("According to the loopTimes and Effectiveness of the Backtracking");
+            telemetry.addLine("Tune variable in FTC Dashboard under Backtracking_Tuning");
+            telemetry.addLine("Watch and tune for best localizer accuracy");
             telemetry.addLine("Turn and push your robot for about 30 seconds in every direction");
+            telemetry.addLine("To make it more realistic simulate robot to robot contact");
             telemetry.update();
         }
 
@@ -41,9 +42,14 @@ public class Backtracking_TUNING extends LinearOpMode {
             NumOfLoops ++;
 
             total += loopTime.milliseconds();
+            if(total> 5000){
+                total =0;
+                NumOfLoops=0;
+            }
+
             telemetry.addData("LoopTime", (int)loopTime.milliseconds());
             if(NumOfLoops!=0){
-                telemetry.addData("Avg LoopT - Restart Op Mode after Changing timeBetween_Reads)", total/NumOfLoops);
+                telemetry.addData("Avg LoopT", (int)(total/NumOfLoops));
             }
             loopTime.reset();
 
@@ -51,7 +57,7 @@ public class Backtracking_TUNING extends LinearOpMode {
             telemetry.addData("Overall Effectiveness X - In Percentage", drive.totalMovement()[1]);
             telemetry.addData("Overall Effectiveness Y - In Percentage", drive.totalMovement()[0]);
 
-            telemetry.addData("Error recognized in degrees (R)", Drive.OverallError[2]);
+            telemetry.addData("Error recognized in degrees (R)", Math.toDegrees(Drive.OverallError[2]));
             telemetry.addData("Error recognized in inches (X)", Drive.OverallError[1]);
             telemetry.addData("Error recognized in inches (Y)", Drive.OverallError[0]);
 
@@ -65,3 +71,4 @@ public class Backtracking_TUNING extends LinearOpMode {
 
 
 }
+
