@@ -15,7 +15,8 @@ public class Backtracking_TUNING extends LinearOpMode {
     public static int timeBetween_Reads = 300;
     MecDrive drive;
     ElapsedTime loopTime = new ElapsedTime();
-    double total = 0.0, NumOfLoops =0.0;
+    double total = 0.0, NumOfLoops = 0.0;
+
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -24,7 +25,7 @@ public class Backtracking_TUNING extends LinearOpMode {
 
         loopTime.reset();
 
-        while(opModeInInit()) {
+        while (opModeInInit()) {
             telemetry.addLine("The DIRECTIONS");
             telemetry.addLine("Tune variable in FTC Dashboard under Backtracking_Tuning");
             telemetry.addLine("Watch and tune for best localizer accuracy");
@@ -39,17 +40,17 @@ public class Backtracking_TUNING extends LinearOpMode {
 
             drive.updatePoseEstimate();
 
-            NumOfLoops ++;
+            NumOfLoops++;
 
             total += loopTime.milliseconds();
-            if(total> 5000){
-                total =0;
-                NumOfLoops=0;
+            if (total > 5000) {
+                total = 0;
+                NumOfLoops = 0;
             }
 
-            telemetry.addData("LoopTime", (int)loopTime.milliseconds());
-            if(NumOfLoops!=0){
-                telemetry.addData("Avg LoopT", (int)(total/NumOfLoops));
+            telemetry.addData("LoopTime", (int) loopTime.milliseconds());
+            if (NumOfLoops != 0) {
+                telemetry.addData("Avg LoopT", (int) (total / NumOfLoops));
             }
             loopTime.reset();
 
@@ -57,9 +58,9 @@ public class Backtracking_TUNING extends LinearOpMode {
             telemetry.addData("Overall Effectiveness X - In Percentage", drive.totalMovement()[1]);
             telemetry.addData("Overall Effectiveness Y - In Percentage", drive.totalMovement()[0]);
 
-            telemetry.addData("Error recognized in degrees (R)", Math.toDegrees(Drive.OverallError[2]));
-            telemetry.addData("Error recognized in inches (X)", Drive.OverallError[1]);
-            telemetry.addData("Error recognized in inches (Y)", Drive.OverallError[0]);
+            telemetry.addData("Error recognized in degrees (R)", Math.toDegrees(drive.OverallError[2]));
+            telemetry.addData("Error recognized in inches (X)", drive.OverallError[1]);
+            telemetry.addData("Error recognized in inches (Y)", drive.OverallError[0]);
 
             telemetry.addData("Rotation - Pose", Math.toDegrees(drive.pose.heading.toDouble()));
             telemetry.addData("X - Pose", drive.pose.position.y);

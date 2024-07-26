@@ -17,18 +17,24 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer
 import org.firstinspires.ftc.teamcode.messages.ThreeDeadWheelInputsMessage
 
-class Localizer(hardwareMap: HardwareMap, val imu: IMU, inPerTick: Double, private val drive: Drive) :
+class Localizer(
+    hardwareMap: HardwareMap,
+    val imu: IMU,
+    inPerTick: Double,
+    private val drive: Drive
+) :
     ThreeDeadWheelLocalizer(hardwareMap, inPerTick) {
 
     private var par0PosDelta = 0
     private var par1PosDelta = 0
     private var perpPosDelta = 0
-    private var deadWheelHeading= Rotation2d (0.0,0.0)
-    private var heading = Rotation2d (0.0,0.0)
-    private var listOfChanges= ArrayList<ArrayList<Double>>()
-    private var listOfPoses= ArrayList<Pose2d>()
+    private var deadWheelHeading = Rotation2d(0.0, 0.0)
+    private var heading = Rotation2d(0.0, 0.0)
+    private var listOfChanges = ArrayList<ArrayList<Double>>()
+    private var listOfPoses = ArrayList<Pose2d>()
     var timer: ElapsedTime = ElapsedTime()
-    private var listofEstimatedPosChanges= ArrayList<Twist2d>()
+    private var listofEstimatedPosChanges = ArrayList<Twist2d>()
+
     init {
         timer.reset()
         imu.resetYaw()
@@ -43,7 +49,8 @@ class Localizer(hardwareMap: HardwareMap, val imu: IMU, inPerTick: Double, priva
     }
 
     override fun update(): Twist2dDual<Time> {
-        val readImu = timer.milliseconds().toInt() >= BacktrackingTUNINGkt.Backtracking_TuningKt.timeBetween_Reads
+        val readImu = timer.milliseconds()
+            .toInt() >= BacktrackingTUNINGkt.Backtracking_TuningKt.timeBetween_Reads
 
         val par0PosVel = par0.getPositionAndVelocity()
         val par1PosVel = par1.getPositionAndVelocity()
@@ -66,7 +73,8 @@ class Localizer(hardwareMap: HardwareMap, val imu: IMU, inPerTick: Double, priva
             lastPar0Pos = par0PosVel.position
             lastPar1Pos = par1PosVel.position
             lastPerpPos = perpPosVel.position
-            deadWheelHeading = Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks))
+            deadWheelHeading =
+                Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks))
 
             return Twist2dDual(
                 Vector2dDual.constant(Vector2d(0.0, 0.0), 2),
@@ -116,7 +124,12 @@ class Localizer(hardwareMap: HardwareMap, val imu: IMU, inPerTick: Double, priva
 
         if (readImu) {
             val headingDrift = heading - deadWheelHeading
-            drive.correctCurrentPose(listOfChanges, listOfPoses, listofEstimatedPosChanges,headingDrift)
+            drive.correctCurrentPose(
+                listOfChanges,
+                listOfPoses,
+                listofEstimatedPosChanges,
+                headingDrift
+            )
             timer.reset()
         }
 
@@ -124,7 +137,8 @@ class Localizer(hardwareMap: HardwareMap, val imu: IMU, inPerTick: Double, priva
         lastPar0Pos = par0PosVel.position
         lastPar1Pos = par1PosVel.position
         lastPerpPos = perpPosVel.position
-        deadWheelHeading = Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks))
+        deadWheelHeading =
+            Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks))
 
         return twist
     }

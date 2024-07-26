@@ -29,18 +29,18 @@ class BacktrackingTUNINGkt : LinearOpMode() {
 
         telemetry.clearAll()
 
-        var numOfLoops=1
-        var total =0
+        var numOfLoops = 1
+        var total = 0
         waitForStart()
 
         while (opModeIsActive()) {
 
-            total+= loopTimer.milliseconds().toInt()
+            total += loopTimer.milliseconds().toInt()
 
             //reset timer to show more accurate average loop times
-            if(total> 5000){
-                total =0
-                numOfLoops=0
+            if (total > 5000) {
+                total = 0
+                numOfLoops = 0
             }
 
             loopTimer.reset()
@@ -50,9 +50,9 @@ class BacktrackingTUNINGkt : LinearOpMode() {
             telemetry.addData("Overall Effectiveness X - In Percentage", drive.totalMovement()[0])
             telemetry.addData("Overall Effectiveness Y - In Percentage", drive.totalMovement()[1])
 
-            telemetry.addData("Overall Error in inches (X)", MecDrive.OverallError[0])
-            telemetry.addData("Overall Error in inches (Y)", MecDrive.OverallError[1])
-            telemetry.addData("Overall Error in degrees (R)", Math.toDegrees(MecDrive.OverallError[2]))
+            telemetry.addData("Overall Error in inches (X)", drive.OverallError[0])
+            telemetry.addData("Overall Error in inches (Y)", drive.OverallError[1])
+            telemetry.addData("Overall Error in degrees (R)", Math.toDegrees(drive.OverallError[2]))
 
             telemetry.addData("Rotation - Pose", Math.toDegrees(drive.pose.heading.toDouble()))
             telemetry.addData("X - Pose", drive.pose.position.y)
@@ -60,8 +60,8 @@ class BacktrackingTUNINGkt : LinearOpMode() {
 
             telemetry.addData("LoopTime", loopTimer.milliseconds().toInt())
 
-            if(numOfLoops!=0){
-                telemetry.addData("Avg LoopTime" , (total/numOfLoops))
+            if (numOfLoops != 0) {
+                telemetry.addData("Avg LoopTime", (total / numOfLoops))
             }
 
             telemetry.update()
@@ -69,9 +69,11 @@ class BacktrackingTUNINGkt : LinearOpMode() {
             numOfLoops++
         }
     }
+
     @Config
-    object Backtracking_TuningKt{
+    object Backtracking_TuningKt {
         //You can tune the time at which the program reads the IMU to find best accuracy
-        @JvmField var timeBetween_Reads: Int = 300
+        @JvmField
+        var timeBetween_Reads: Int = 300
     }
 }

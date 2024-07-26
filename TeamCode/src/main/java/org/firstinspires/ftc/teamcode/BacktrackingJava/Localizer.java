@@ -25,15 +25,15 @@ import org.firstinspires.ftc.teamcode.messages.ThreeDeadWheelInputsMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Localizer extends ThreeDeadWheelLocalizer{
+public class Localizer extends ThreeDeadWheelLocalizer {
     public final IMU imu;
     public ElapsedTime timer = new ElapsedTime();
     private final Drive drive;
-    private Rotation2d deadWheelHeading= new Rotation2d(0.0,0.0);
-    private Rotation2d heading = new Rotation2d(0.0,0.0);
-    private ArrayList<ArrayList<Double>> listOfChanges= new ArrayList<>();
-    private ArrayList<Pose2d> listOfPoses= new ArrayList<>();
-    private ArrayList<Twist2d> listofEstimatedPosChanges= new ArrayList<>();
+    private Rotation2d deadWheelHeading = new Rotation2d(0.0, 0.0);
+    private Rotation2d heading = new Rotation2d(0.0, 0.0);
+    private ArrayList<ArrayList<Double>> listOfChanges = new ArrayList<>();
+    private ArrayList<Pose2d> listOfPoses = new ArrayList<>();
+    private ArrayList<Twist2d> listofEstimatedPosChanges = new ArrayList<>();
 
 
     //Initialize and reset
@@ -118,7 +118,7 @@ public class Localizer extends ThreeDeadWheelLocalizer{
 
         if (readImu) {
             double headingDrift = heading.minus(deadWheelHeading);
-            drive.correctCurrentPose(listOfChanges, listOfPoses, listofEstimatedPosChanges,headingDrift);
+            drive.correctCurrentPose(listOfChanges, listOfPoses, listofEstimatedPosChanges, headingDrift);
             timer.reset();
         }
 

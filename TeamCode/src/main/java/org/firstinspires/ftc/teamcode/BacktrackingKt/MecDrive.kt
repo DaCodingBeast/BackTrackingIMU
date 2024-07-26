@@ -7,15 +7,17 @@ import org.firstinspires.ftc.teamcode.MecanumDrive
 import org.firstinspires.ftc.teamcode.messages.PoseMessage
 import kotlin.math.abs
 
-open class MecDrive(hardwareMap: HardwareMap, startPose: Pose2d) : MecanumDrive(hardwareMap, startPose) {
+open class MecDrive(hardwareMap: HardwareMap, startPose: Pose2d) :
+    MecanumDrive(hardwareMap, startPose) {
 
     lateinit var drive: Drive
     private var poseWithoutBacktracking: Pose2d = startPose
 
-    fun createLocalizer(hwMap: HardwareMap){
+    fun createLocalizer(hwMap: HardwareMap) {
         localizer = Localizer(hwMap, lazyImu.get(), PARAMS.inPerTick, drive)
     }
 
+    var OverallError = DoubleArray(3)
     override fun updatePoseEstimate(): PoseVelocity2d {
         val twist = localizer.update()
         pose += twist.value()
@@ -39,9 +41,10 @@ open class MecDrive(hardwareMap: HardwareMap, startPose: Pose2d) : MecanumDrive(
     }
 
 
-    private var prevPose= DoubleArray(2)
-    private var percentageCorrection=  DoubleArray(2)
-    private var totalChange= arrayListOf(0.0,0.0)
+    private var prevPose = DoubleArray(2)
+    private var percentageCorrection = DoubleArray(2)
+    private var totalChange = arrayListOf(0.0, 0.0)
+
 
     //This is returns the effectiveness of the Localizer in percentage
     fun totalMovement(): DoubleArray {
@@ -56,8 +59,5 @@ open class MecDrive(hardwareMap: HardwareMap, startPose: Pose2d) : MecanumDrive(
         }
         prevPose = currentPose
         return percentageCorrection
-    }
-    companion object{
-        var OverallError= DoubleArray(3)
     }
 }
