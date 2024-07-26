@@ -22,7 +22,7 @@ Furthermore, if your odometry is largely affected by external forces: wheel slip
 Don't believe me? This project was created so that you can <b>test</b> it yourself!
 
 <h2>If you have not already downloaded RR: </h2>
-Clone this quickstart, and tune using the <a href="https://rr.brott.dev/docs/v1-0/tuning/">RR 1.0 tuning docs</a>.
+Clone this quickstart, and <b>tune the THREE DEAD WHEEL LOCALIZER</b> using the <a href="https://rr.brott.dev/docs/v1-0/tuning/">RR 1.0 tuning docs</a>.
 
 Run the opMode named Backtracking_TUNING in the FTC Dashboard.
 <b>(Make sure to read the telemetry instructions in the init phase of the Opmode)</b>
