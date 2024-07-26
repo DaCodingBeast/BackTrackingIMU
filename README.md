@@ -13,11 +13,12 @@ The sensor takes quite a large time to read, meaning loop times will be negative
 
 Through reading the IMU infrequently <b>(from 100ms+)</b> you keep Loop Times at a low <b>7ms</b> <br>Note: using nothing other than the IMU and odometry encoders<be>
 
-Is it effective? Testing on my team's robot has proven an increase in accuracy of 1.5%<br>
+Is it effective? Testing on my team's robot has proven an increase in accuracy between 1-5%. 
 
-Without looking at the big picture, it may seem to have little impact. But it can determine whether you win or lose a match, as autos in FTC often require the robot to be <i>perfectly</i> positioned when depositing game objects.
+Why such a large range?
+If your robot's autonomous does not involve a lot of one-directional rotation (clockwise/counterclockwise), errors will be much lower.
 
-This can prevent errors of over 10 inches in the 30-second autonomous period.
+However, if your robot's dead wheels slip due to any external force, this will be a <b>lifesaver</b>.
 
 Don't believe these statistics? This project was created so that you can <b>test</b> it yourself!
 
