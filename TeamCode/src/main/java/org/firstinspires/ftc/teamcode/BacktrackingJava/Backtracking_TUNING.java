@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Backtracking;
+package org.firstinspires.ftc.teamcode.BacktrackingJava;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -13,16 +13,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Backtracking_TUNING extends LinearOpMode {
     //You can tune the time at which the program reads the IMU to find best accuracy
     public static int timeBetween_Reads = 300;
-    Drive drive;
+    MecDrive drive;
     ElapsedTime loopTime = new ElapsedTime();
     double total = 0.0, NumOfLoops =0.0;
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        //Make sure to have this in any of the Autonomous Opmodes you create
-        Pose2d startPos = new Pose2d(0, 0, 0);
-        drive = new Drive(hardwareMap, startPos);
+        drive = new Drive(hardwareMap, new Pose2d(0, 0, 0));
 
         loopTime.reset();
 
@@ -42,17 +40,20 @@ public class Backtracking_TUNING extends LinearOpMode {
 
             NumOfLoops ++;
 
-            total+= loopTime.milliseconds();
+            total += loopTime.milliseconds();
             telemetry.addData("LoopTime", (int)loopTime.milliseconds());
-            telemetry.addData("Avg LoopT - Restart Op Mode after Changing timeBetween_Reads)", total/NumOfLoops);
+            if(NumOfLoops!=0){
+                telemetry.addData("Avg LoopT - Restart Op Mode after Changing timeBetween_Reads)", total/NumOfLoops);
+            }
             loopTime.reset();
 
             //Weird X is Y things are because Y in RR is lateral movement
-            telemetry.addData("Overall Effectiveness X - In Percentage", drive.TotalMovement()[1]);
-            telemetry.addData("Overall Effectiveness Y - In Percentage", drive.TotalMovement()[0]);
+            telemetry.addData("Overall Effectiveness X - In Percentage", drive.totalMovement()[1]);
+            telemetry.addData("Overall Effectiveness Y - In Percentage", drive.totalMovement()[0]);
 
-            telemetry.addData("Overall Error in inches (X)", ErrorCalculator.errors[1]);
-            telemetry.addData("Overall Error in inches (Y)", ErrorCalculator.errors[0]);
+            telemetry.addData("Error recognized in degrees (R)", Drive.OverallError[2]);
+            telemetry.addData("Error recognized in inches (X)", Drive.OverallError[1]);
+            telemetry.addData("Error recognized in inches (Y)", Drive.OverallError[0]);
 
             telemetry.addData("Rotation - Pose", Math.toDegrees(drive.pose.heading.toDouble()));
             telemetry.addData("X - Pose", drive.pose.position.y);

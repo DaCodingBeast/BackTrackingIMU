@@ -1,8 +1,12 @@
-package org.firstinspires.ftc.teamcode.Backtracking;
+package org.firstinspires.ftc.teamcode.BacktrackingJava;
+
+import androidx.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.DualNum;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Time;
+import com.acmerobotics.roadrunner.Twist2d;
 import com.acmerobotics.roadrunner.Twist2dDual;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.Vector2dDual;
@@ -20,19 +24,26 @@ import org.firstinspires.ftc.teamcode.messages.ThreeDeadWheelInputsMessage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class Localizer extends ThreeDeadWheelLocalizer {
+public class Localizer extends ThreeDeadWheelLocalizer{
     public final IMU imu;
-    public static ElapsedTime timer = new ElapsedTime();
-    ErrorCalculator calculateErrors;
+    public ElapsedTime timer = new ElapsedTime();
+    private final Drive drive;
+    private Rotation2d deadWheelHeading= new Rotation2d(0.0,0.0);
+    private Rotation2d heading = new Rotation2d(0.0,0.0);
+    private ArrayList<ArrayList<Double>> listOfChanges= new ArrayList<>();
+    private ArrayList<Pose2d> listOfPoses= new ArrayList<>();
+    private ArrayList<Twist2d> listofEstimatedPosChanges= new ArrayList<>();
+
 
     //Initialize and reset
-    public Localizer(HardwareMap hardwareMap, IMU imu, double inPerTick) {
+    public Localizer(HardwareMap hardwareMap, IMU imu, double inPerTick, @NonNull Drive drive) {
         super(hardwareMap, inPerTick);
+        this.drive = drive;
         this.imu = imu;
         timer.reset();
         this.imu.resetYaw();
+
         //reset odowheels (Have to do this because RR's custom encoder class does not let you Reset)
         DcMotor parx = hardwareMap.get(DcMotor.class, "par0");
         DcMotor pary = hardwareMap.get(DcMotor.class, "par1");
@@ -40,14 +51,8 @@ public class Localizer extends ThreeDeadWheelLocalizer {
         pary.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         parx.close();
         pary.close();
-        headingDrift =0;
-        calculateErrors = new ErrorCalculator(inPerTick);
     }
-    double headingDelta, headingDrift;
-    int par0PosDelta, par1PosDelta, perpPosDelta;
-    Rotation2d lastHeading = new Rotation2d(0.0, 0.0);
-    Rotation2d heading = new Rotation2d(0.0, 0.0);
-    ArrayList<List<Double>> listOfPoses = new ArrayList<>();
+
 
     @Override
     public Twist2dDual<Time> update() {
@@ -72,7 +77,7 @@ public class Localizer extends ThreeDeadWheelLocalizer {
             lastPar0Pos = par0PosVel.position;
             lastPar1Pos = par1PosVel.position;
             lastPerpPos = perpPosVel.position;
-            lastHeading = Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks));
+            deadWheelHeading = Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks));
 
             return new Twist2dDual<>(
                     Vector2dDual.constant(new Vector2d(0.0, 0.0), 2),
@@ -80,25 +85,17 @@ public class Localizer extends ThreeDeadWheelLocalizer {
             );
         }
 
-        par0PosDelta = par0PosVel.position - lastPar0Pos;
-        par1PosDelta = par1PosVel.position - lastPar1Pos;
-        perpPosDelta = perpPosVel.position - lastPerpPos;
-        if (readImu) {
-            headingDelta = heading.minus(lastHeading);
-        }
+        int par0PosDelta = par0PosVel.position - lastPar0Pos;
+        int par1PosDelta = par1PosVel.position - lastPar1Pos;
+        int perpPosDelta = perpPosVel.position - lastPerpPos;
 
         double deadWheelHeadingDelta = (par0PosDelta - par1PosDelta) / (PARAMS.par0YTicks - PARAMS.par1YTicks);
         double axial = (PARAMS.par0YTicks * par1PosDelta - PARAMS.par1YTicks * par0PosDelta) / (PARAMS.par0YTicks - PARAMS.par1YTicks);
         double lateral = (PARAMS.perpXTicks / (PARAMS.par0YTicks - PARAMS.par1YTicks) * (par1PosDelta - par0PosDelta) + perpPosDelta);
 
-        headingDrift = headingDelta - deadWheelHeadingDelta;
-
-        List<Double> pose = Arrays.asList(axial, lateral, deadWheelHeadingDelta);
-        listOfPoses.add(pose);
-
-        if (readImu) {
-            calculateErrors.Recalculate(listOfPoses, headingDrift);
-        }
+        ArrayList<Double> poseChange = new ArrayList<>(Arrays.asList(axial, lateral, deadWheelHeadingDelta));
+        listOfChanges.add(poseChange);
+        listOfPoses.add(drive.pose);
 
         Twist2dDual<Time> twist = new Twist2dDual<>(
                 new Vector2dDual<>(
@@ -117,13 +114,18 @@ public class Localizer extends ThreeDeadWheelLocalizer {
                 })
         );
 
+        listofEstimatedPosChanges.add(twist.value());
+
+        if (readImu) {
+            double headingDrift = heading.minus(deadWheelHeading);
+            drive.correctCurrentPose(listOfChanges, listOfPoses, listofEstimatedPosChanges,headingDrift);
+            timer.reset();
+        }
+
         lastPar0Pos = par0PosVel.position;
         lastPar1Pos = par1PosVel.position;
         lastPerpPos = perpPosVel.position;
-        lastHeading = Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks));
-        if (readImu) {
-            timer.reset();
-        }
+        deadWheelHeading = Rotation2d.exp((par0PosVel.position - par1PosVel.position) / (PARAMS.par0YTicks - PARAMS.par1YTicks));
 
         return twist;
     }
