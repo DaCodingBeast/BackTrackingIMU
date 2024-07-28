@@ -55,7 +55,7 @@ class BacktrackingTUNINGkt : LinearOpMode() {
             telemetry.addData("Overall Error in degrees (R)", Math.toDegrees(drive.OverallError[2]))
 
             telemetry.addData("Rotation - Pose", Math.toDegrees(drive.pose.heading.toDouble()))
-            telemetry.addData("X - Pose", drive.pose.position.y)
+            telemetry.addData("X - Pose", drive.pose.position.y*-1)
             telemetry.addData("Y - Pose", drive.pose.position.x)
 
             telemetry.addData("LoopTime", loopTimer.milliseconds().toInt())

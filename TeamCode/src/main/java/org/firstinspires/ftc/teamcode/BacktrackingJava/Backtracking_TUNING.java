@@ -63,7 +63,7 @@ public class Backtracking_TUNING extends LinearOpMode {
             telemetry.addData("Error recognized in inches (Y)", drive.OverallError[0]);
 
             telemetry.addData("Rotation - Pose", Math.toDegrees(drive.pose.heading.toDouble()));
-            telemetry.addData("X - Pose", drive.pose.position.y);
+            telemetry.addData("X - Pose", drive.pose.position.y*-1);
             telemetry.addData("Y - Pose", drive.pose.position.x);
             telemetry.update();
         }
